@@ -8,8 +8,10 @@
     display: grid;
     padding: 1rem;
     gap: 1rem;
-    grid-template-columns: 120px;
-    grid-template-rows: 120px;
+    place-items: center;
+    width: min(80%,600px);
+    outline: 1px solid red;
+    margin: 0 auto;
 }
 p {
     opacity: .25;
@@ -21,7 +23,7 @@ input[type="checkbox"] {
     display: none;
 }
 
-ul {
+.crosses, .circles {
     grid-column: 1/2;
     grid-row: 1/2;
     display: grid;
@@ -36,6 +38,7 @@ label {
     display: block;
     width: 40px;
     outline: 2px solid red;
+    position: relative;
 }
 .crosses {
     z-index: 1;
@@ -45,22 +48,58 @@ label {
 }
 
 .crosses label {
+    --_svg-size: 100%;
     outline-color: lime;
     background: url('cross.svg');
     background-position: center;
     background-size: 0px;
 }
+
 .circles label {
+    --_svg-size: 85%;
     background: url('circle.svg');
     background-position: center;
     background-size: 0px;
+    background-repeat:no-repeat;
 }
 
+label::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: var(--_svg-size);
+    background-repeat:no-repeat;
+    background-image: url('cross.svg');
+    opacity: 0;
+    transition: opacity 250ms ease;
+    -webkit-transition: opacity 250ms ease;
+    -moz-transition: opacity 250ms ease;
+    -ms-transition: opacity 250ms ease;
+    -o-transition: opacity 250ms ease;
+}
+
+.circles label::after {
+    background-image: url('circle.svg');
+}
+
+label:hover::after {
+    opacity: .5;
+}
+
+
+
+
+
+
+
 input:checked + label {
-    background-size: 100%;
+    background-size: var(--_svg-size);
     pointer-events: none;
     cursor: auto;
 }
+
 
 .crosses:has(input:nth-of-type(1):checked) ~ .circles input:nth-of-type(1) + label ,
 .crosses:has(input:nth-of-type(2):checked) ~ .circles input:nth-of-type(2) + label ,
@@ -119,23 +158,25 @@ input:checked + label {
 
 /* win cond */
 
-.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(2) ~ input:checked:nth-of-type(3)) ~ p:nth-of-type(1) ,
-.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(4) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(1) ,
-.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(1) ,
-.crosses:has(input:checked:nth-of-type(2) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(8)) ~ p:nth-of-type(1) ,
-.crosses:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(6) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(1) ,
-.crosses:has(input:checked:nth-of-type(6) ~ input:checked:nth-of-type(7) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(1) ,
-.crosses:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(1) {
+.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(2) ~ input:checked:nth-of-type(3)) ~ .result p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(4) ~ input:checked:nth-of-type(7)) ~ .result p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(9)) ~ .result p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(2) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(8)) ~ .result p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(6) ~ input:checked:nth-of-type(9)) ~ .result p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(7) ~ input:checked:nth-of-type(8) ~ input:checked:nth-of-type(9)) ~ .result p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(4) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(6)) ~ .result p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(7)) ~ .result p:nth-of-type(1) {
     opacity: 1;
 }
 
-.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(2) ,
-.circles:has(input:checked:nth-of-type(2) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(8)) ~ p:nth-of-type(2) ,
-.circles:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(6) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(2) ,
-.circles:has(input:checked:nth-of-type(6) ~ input:checked:nth-of-type(7) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(2) ,
-.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(4) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(2) ,
-.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(2) ~ input:checked:nth-of-type(3)) ~ p:nth-of-type(2) ,
-.circles:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(2) {
+.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(9)) ~ .result p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(2) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(8)) ~ .result p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(6) ~ input:checked:nth-of-type(9)) ~ .result p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(7) ~ input:checked:nth-of-type(8) ~ input:checked:nth-of-type(9)) ~ .result p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(4) ~ input:checked:nth-of-type(7)) ~ .result p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(2) ~ input:checked:nth-of-type(3)) ~ .result p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(4) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(6)) ~ .result p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(7)) ~ .result p:nth-of-type(2) {
     opacity: 1;
 }
 
