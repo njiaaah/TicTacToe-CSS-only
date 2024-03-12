@@ -1,0 +1,143 @@
+*,*::after,*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: grid;
+    padding: 1rem;
+    gap: 1rem;
+    grid-template-columns: 120px;
+    grid-template-rows: 120px;
+}
+p {
+    opacity: .25;
+}
+
+
+input[type="checkbox"] {
+    /* position: absolute; */
+    display: none;
+}
+
+ul {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+label {
+    cursor: pointer;
+    width: 100%;
+    aspect-ratio: 1;
+    display: block;
+    width: 40px;
+    outline: 2px solid red;
+}
+.crosses {
+    z-index: 1;
+}
+.circles {
+    z-index: 0;
+}
+
+.crosses label {
+    outline-color: lime;
+    background: url('cross.svg');
+    background-position: center;
+    background-size: 0px;
+}
+.circles label {
+    background: url('circle.svg');
+    background-position: center;
+    background-size: 0px;
+}
+
+input:checked + label {
+    background-size: 100%;
+    pointer-events: none;
+    cursor: auto;
+}
+
+.crosses:has(input:nth-of-type(1):checked) ~ .circles input:nth-of-type(1) + label ,
+.crosses:has(input:nth-of-type(2):checked) ~ .circles input:nth-of-type(2) + label ,
+.crosses:has(input:nth-of-type(3):checked) ~ .circles input:nth-of-type(3) + label ,
+.crosses:has(input:nth-of-type(4):checked) ~ .circles input:nth-of-type(4) + label ,
+.crosses:has(input:nth-of-type(5):checked) ~ .circles input:nth-of-type(5) + label ,
+.crosses:has(input:nth-of-type(6):checked) ~ .circles input:nth-of-type(6) + label ,
+.crosses:has(input:nth-of-type(7):checked) ~ .circles input:nth-of-type(7) + label ,
+.crosses:has(input:nth-of-type(8):checked) ~ .circles input:nth-of-type(8) + label ,
+.crosses:has(input:nth-of-type(9):checked) ~ .circles input:nth-of-type(9) + label {
+    pointer-events: none;
+}
+.crosses:has(~.circles input:nth-of-type(1):checked) input:nth-of-type(1) + label ,
+.crosses:has(~.circles input:nth-of-type(2):checked) input:nth-of-type(2) + label ,
+.crosses:has(~.circles input:nth-of-type(3):checked) input:nth-of-type(3) + label ,
+.crosses:has(~.circles input:nth-of-type(4):checked) input:nth-of-type(4) + label ,
+.crosses:has(~.circles input:nth-of-type(5):checked) input:nth-of-type(5) + label ,
+.crosses:has(~.circles input:nth-of-type(6):checked) input:nth-of-type(6) + label ,
+.crosses:has(~.circles input:nth-of-type(7):checked) input:nth-of-type(7) + label ,
+.crosses:has(~.circles input:nth-of-type(8):checked) input:nth-of-type(8) + label ,
+.crosses:has(~.circles input:nth-of-type(9):checked) input:nth-of-type(9) + label ,
+.crosses:has(~.circles input:nth-of-type(1):checked) input:nth-of-type(1) + label ,
+.crosses:has(~.circles input:nth-of-type(1):checked) input:nth-of-type(1) + label {
+    pointer-events: none;
+}
+/* X -> O */
+.crosses:has(input:checked) {
+    z-index: -1;
+}
+/* O -> X*/
+.container:has( .circles input:checked) .crosses {
+    z-index: 1; 
+}
+/* X -> O */
+.container:has( .crosses input:checked ~ input:checked) .crosses {
+    z-index: -1; 
+}
+/* O -> X */
+.container:has( .circles input:checked ~ input:checked) .crosses {
+    z-index: 1; 
+}
+.container:has( .crosses input:checked ~ input:checked~ input:checked) .crosses {
+    z-index: -1; 
+}
+
+.container:has( .circles input:checked ~ input:checked~ input:checked) .crosses {
+    z-index: 1; 
+}
+.container:has( .crosses input:checked ~ input:checked ~ input:checked ~ input:checked) .crosses {
+    z-index: -1; 
+}
+
+.container:has( .circles input:checked ~ input:checked~ input:checked ~ input:checked) .crosses {
+    z-index: 1; 
+}
+
+/* win cond */
+
+.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(2) ~ input:checked:nth-of-type(3)) ~ p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(4) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(2) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(8)) ~ p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(6) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(6) ~ input:checked:nth-of-type(7) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(1) ,
+.crosses:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(1) {
+    opacity: 1;
+}
+
+.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(2) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(8)) ~ p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(6) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(6) ~ input:checked:nth-of-type(7) ~ input:checked:nth-of-type(9)) ~ p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(4) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(1) ~ input:checked:nth-of-type(2) ~ input:checked:nth-of-type(3)) ~ p:nth-of-type(2) ,
+.circles:has(input:checked:nth-of-type(3) ~ input:checked:nth-of-type(5) ~ input:checked:nth-of-type(7)) ~ p:nth-of-type(2) {
+    opacity: 1;
+}
+
+
+
